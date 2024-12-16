@@ -40,3 +40,10 @@
 .read-the-docs {
   color: #888;
 }
+
+.article-card-img {
+  width: 100%;          /* Set width to fill the card */
+  height: 200px;        /* Fixed height for all images */
+  object-fit: cover;    /* Crop the image while maintaining its aspect ratio */
+  border-radius: 5px;   /* Optional: Rounded corners */
+}
