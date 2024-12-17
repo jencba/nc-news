@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { Loading } from "./Loading";
 import { getCommentsById } from "../api";
 import { useParams } from "react-router-dom";
 import { CommentCard } from "./CommentCard";
 
-export const CommentsList= () => {
+export const CommentsList= ({loading, setLoading}) => {
     const { article_id } = useParams()
     const [comments, setComments]= useState([])
 
@@ -17,7 +18,10 @@ export const CommentsList= () => {
           .catch((err) => console.error(err));
       }, [article_id]);
     
-
+      if (loading) {
+        return  <Loading />
+        
+      }
   return (
 
     <section className="comments-list">

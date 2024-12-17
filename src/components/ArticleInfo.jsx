@@ -48,7 +48,7 @@ export const ArticleInfo = ({loading, setLoading}) => {
       <Link to="/articles">
         <button className=" btn-secondary">Back to Articles</button>
       </Link>
-      <CommentsList />
+      <CommentsList loading={loading} setLoading={setLoading}/>
     </div>
   );
 };
