@@ -2,6 +2,7 @@ import React, { useState, useEffect} from "react";
 import { useParams, Link } from "react-router-dom";
 import { getArticleById } from "../api";
 import { Loading } from "./Loading";
+import { Vote } from "./Vote";
 
 import { CommentsList } from "./CommentsList";
 
@@ -25,7 +26,6 @@ export const ArticleInfo = ({loading, setLoading}) => {
     );
   }
 
-  
 
   if (!article.title) {
     return <p>Article not found!</p>;
@@ -39,12 +39,14 @@ export const ArticleInfo = ({loading, setLoading}) => {
         {new Date(article.created_at).toLocaleDateString()} |{" "}
         <strong>Topic:</strong> {article.topic}
       </p>
+      <p><strong>Votes:</strong> {article.votes}</p>
       <img
         src={article.article_img_url}
         alt={article.title}
         className="article-img"
       />
       <p className="article-body">{article.body}</p>
+      <Vote article_id={article_id} initialVotes={article.votes} />
       <Link to="/articles">
         <button className=" btn-secondary">Back to Articles</button>
       </Link>
