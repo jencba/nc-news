@@ -14,7 +14,7 @@ export const getArticles = () => {
 
 export const getArticleById = (article_id) => {
     return api.get(`/articles/${article_id}`).then(({ data }) => {
-            return data;
+            return data
             });
           };
     

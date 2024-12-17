@@ -1,11 +1,9 @@
 import React from "react";
-import { useContext, useState } from "react";
-import { LoadingContext } from "../context/LoadingProvider";
+import { useState } from "react";
 import { Loading } from "./Loading";
 import { ArticleCard } from "./ArticlesCard";
 
-export const ArticlesPage=({articles, setArticles}) => {
-    const {loading, setLoading } = useContext(LoadingContext)
+export const ArticlesPage=({articles, setArticles},{loading}) => {
     const [sortBy, setSortBy] = useState('created');
     const [order, setOrder] = useState('desc'); 
 

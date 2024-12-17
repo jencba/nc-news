@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect} from "react";
 import { useParams, Link } from "react-router-dom";
 import { getArticleById } from "../api";
 import { Loading } from "./Loading";
-import { LoadingContext } from "../context/LoadingProvider";
+
 import { CommentsList } from "./CommentsList";
 
-export const ArticleInfo = () => {
+export const ArticleInfo = ({loading, setLoading}) => {
   const { article_id } = useParams()
-  const [article, setArticle] = useState(null);
-  const {loading, setLoading} = useContext(LoadingContext)
+  const [article, setArticle] = useState({});
+
 
   useEffect(() => {
     getArticleById(article_id)
@@ -25,7 +25,9 @@ export const ArticleInfo = () => {
     );
   }
 
-  if (!article) {
+  
+
+  if (!article.title) {
     return <p>Article not found!</p>;
   }
 

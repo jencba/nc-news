@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect} from 'react'
 import './App.css'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
@@ -7,12 +7,11 @@ import { Routes, Route } from 'react-router-dom'
 import { ArticlesPage } from './components/ArticlesPage'
 import { getArticles } from './api'
 import { Loading } from './components/Loading'
-import { LoadingContext } from './context/LoadingProvider'
 import { HomePage } from './components/HomePage'
 
 function App() {
   const [articles, setArticles] = useState([]);
-  const {loading, setLoading} = useContext(LoadingContext);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getArticles()
@@ -39,9 +38,9 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route
           path="/articles"
-          element={<ArticlesPage articles={articles} setArticles={setArticles} />}
+          element={<ArticlesPage articles={articles} setArticles={setArticles} loading={loading} />}
         />
-        <Route path="/articles/:article_id" element={<ArticleInfo />} />
+        <Route path="/articles/:article_id" element={<ArticleInfo loading={loading} setLoading={setLoading}/>} />
         </Routes>
         <Footer />
         
