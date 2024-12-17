@@ -1,57 +1,83 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { getArticles } from "../api";
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import { Link } from "react-router-dom";
-import { Spinner } from "react-bootstrap";
+import { useContext, useState } from "react";
+import { LoadingContext } from "../context/LoadingProvider";
+import { Loading } from "./Loading";
+import { ArticleCard } from "./ArticlesCard";
 
-export const ArticlesPage=() => {
-    const [articles, setArticles] = useState([]);
-    const [loading, setLoading] = useState(true);
-  
-    
-  useEffect(() => {
-    getArticles()
-      .then(({articles}) => {
-        setArticles(articles);
-        setLoading(false)
-      })
-      .catch((err) => {console.log(err)});
-  }, []);
+export const ArticlesPage=({articles, setArticles}) => {
+    const {loading, setLoading } = useContext(LoadingContext)
+    const [sortBy, setSortBy] = useState('created');
+    const [order, setOrder] = useState('desc'); 
 
+ // Function to sort articles
+ const sortArticles = (articles, sortBy, order) => {
+    return [...articles].sort((a, b) => {
+      let comparison = 0;
+      if (sortBy === "topic") {
+        comparison = a.topic.localeCompare(b.topic);
+      } else if (sortBy === "author") {
+        comparison = a.author.localeCompare(b.author);
+      } else if (sortBy === "title") {
+        comparison = a.title.localeCompare(b.title);
+      } else if (sortBy === "created") {
+        comparison = new Date(a.created_at) - new Date(b.created_at);
+      } else if (sortBy === "comments") {
+        comparison = a.comment_count - b.comment_count;
+      } else if (sortBy === "votes") {
+        comparison = a.votes - b.votes;
+      }
+
+      return order === "asc" ? comparison : -comparison;
+    });
+  };
+
+ 
+  const handleSortByChange = (event) => {
+    setSortBy(event.target.value);
+  };
+
+  const handleSortOrderChange = (event) => {
+    setOrder(event.target.value);
+  };
+
+  const sortedArticles = sortArticles(articles, sortBy, order);
   
   if (loading) {
-    return (
-      <div className="loading-container">
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-      </div>
-    );
+    return  <Loading />
+    
   }
   
   
     return (
-      <div className="articles-container">
-        {articles.map((article) => (
-          <div key={article.article_id} className="article-card">
-            <Card style={{ width: '18rem', margin: '10px auto' }}>
-                <Card.Img variant="top" src={article.article_img_url} alt={`Image for ${article.title}`} className="article-card-img"/>
-      <Card.Body>
-              <Card.Title>{article.title}</Card.Title>
-              <Card.Subtitle>{article.author}</Card.Subtitle>
-              <Card.Text>{article.topic}</Card.Text>
-              <Card.Text>{new Date(article.created_at).toLocaleDateString()}</Card.Text>
-              <Link to={`/articles/${article.article_id}`} className="article-link">
-                <Button variant="primary">Read More</Button>
-              </Link>
-            </Card.Body>
-    </Card>
-
+        <div className="container">
+          <div className="row">
+            <label>
+              Sort by:
+              <select onChange={handleSortByChange} value={sortBy}>
+                <option value="title">Title</option>
+                <option value="author">Author</option>
+                <option value="topic">Topic</option>
+                <option value="created">Created</option>
+                <option value="comments">Comments</option>
+                <option value="votes">Votes</option>
+              </select>
+            </label>
+    
+            <label>
+              Order:
+              <select onChange={handleSortOrderChange} value={order}>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+              </select>
+            </label>
           </div>
-        ))}
-      </div>
-    );
-  }
+    
+          <div className="articles-list">
+            {sortedArticles.map((article) => (
+              <ArticleCard key={article.article_id} article={article} />
+            ))}
+          </div>
+        </div>
+      );
+    };
   
