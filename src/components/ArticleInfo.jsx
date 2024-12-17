@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { getArticleById } from "../api";
 import { Loading } from "./Loading";
 import { LoadingContext } from "../context/LoadingProvider";
+import { CommentsList } from "./CommentsList";
 
 export const ArticleInfo = () => {
   const { article_id } = useParams()
@@ -45,6 +46,7 @@ export const ArticleInfo = () => {
       <Link to="/articles">
         <button className=" btn-secondary">Back to Articles</button>
       </Link>
+      <CommentsList />
     </div>
   );
 };

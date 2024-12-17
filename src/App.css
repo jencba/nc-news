@@ -180,3 +180,27 @@ right: -0.5rem;
   max-height: 400px;
   object-fit: cover;
 }
+
+.comment-card { 
+  align-items: center;     
+  background-color: #f9f9f9;
+  padding: 10px;
+  margin:10px 0;
+  border-radius: 5px;
+  font-size: 10px;
+  color: #555;
+}
+
+.comment-card p {
+  margin: 1px 0;
+}
+
+.comments-list {
+  margin-top: 30px;
+}
+
+.comments-list h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
