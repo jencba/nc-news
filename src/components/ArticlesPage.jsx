@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Loading } from "./Loading";
-import { ArticleCard } from "./ArticlesCard";
+import { ArticlesCard } from "./ArticlesCard";
 
 export const ArticlesPage=({articles, setArticles, loading}) => {
     const [sortBy, setSortBy] = useState('created');
@@ -72,7 +72,7 @@ export const ArticlesPage=({articles, setArticles, loading}) => {
     
           <div className="articles-list">
             {sortedArticles.map((article) => (
-              <ArticleCard key={article.article_id} article={article} />
+              <ArticlesCard key={article.article_id} article={article} />
             ))}
           </div>
         </div>
