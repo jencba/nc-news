@@ -12,26 +12,11 @@ import { Topics } from './components/Topics'
 import { ArticlesByTopic } from './components/ArticlesByTopic'
 
 function App() {
-  const [articles, setArticles] = useState([]);
-  const [loadingArticles, setLoadingArticles] = useState(true);
   const [loggedInUser] = useState("tickle122")
 
-  useEffect(() => {
-    getArticles()
-      .then(({ articles }) => {
-        setArticles(articles);
-        setLoadingArticles(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoadingArticles(false);
-      });
-  }, []);
+ 
 
-  if (loadingArticles) {
-    return  <Loading />
-    
-  }
+  
   return (
    
       <div className="App">
@@ -41,7 +26,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route
           path="/articles"
-          element={<ArticlesPage articles={articles} setArticles={setArticles} loading={loadingArticles}  loggedInUser={loggedInUser} />}
+          element={<ArticlesPage loggedInUser={loggedInUser} />}
         />
         <Route path="/articles/:article_id" element={<ArticleInfo  loggedInUser={loggedInUser}  />} />
         <Route path="/topics/:topic" element={<ArticlesByTopic />} />
