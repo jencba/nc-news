@@ -35,6 +35,12 @@ export const addComment =(article_id, comment) => {
         return data;
 })
 }
+
+export const deleteComment =(comment_id, username) => {
+    return api.delete(`/comments/${comment_id}`, { data: { username } } ).then(({ data }) => {
+        return data;
+})
+}
                 
 
 

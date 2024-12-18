@@ -12,6 +12,7 @@ import { HomePage } from './components/HomePage'
 function App() {
   const [articles, setArticles] = useState([]);
   const [loadingArticles, setLoadingArticles] = useState(true);
+  const [loggedInUser] = useState("tickle122")
 
   useEffect(() => {
     getArticles()
@@ -38,9 +39,9 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route
           path="/articles"
-          element={<ArticlesPage articles={articles} setArticles={setArticles} loading={loadingArticles} />}
+          element={<ArticlesPage articles={articles} setArticles={setArticles} loading={loadingArticles}  loggedInUser={loggedInUser} />}
         />
-        <Route path="/articles/:article_id" element={<ArticleInfo />} />
+        <Route path="/articles/:article_id" element={<ArticleInfo  loggedInUser={loggedInUser}  />} />
         </Routes>
         <Footer />
         
