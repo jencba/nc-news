@@ -5,7 +5,7 @@ import { Loading } from "./Loading";
 import { Vote } from "./Vote";
 import { CommentsList } from "./CommentsList";
 
-export const ArticleInfo = () => {
+export const ArticleInfo = ( {loggedInUser}) => {
   const { article_id } = useParams()
   const [loading, setLoading] =useState(true)
   const [article, setArticle] = useState({});
@@ -50,7 +50,7 @@ export const ArticleInfo = () => {
       <Link to="/articles">
         <button className=" btn-secondary">Back to Articles</button>
       </Link>
-      <CommentsList />
+      <CommentsList loggedInUser={loggedInUser}/>
     </div>
   );
 };

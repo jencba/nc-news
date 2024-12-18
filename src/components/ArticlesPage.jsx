@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Loading } from "./Loading";
 import { ArticleCard } from "./ArticlesCard";
 
-export const ArticlesPage=({articles, setArticles},{loading}) => {
+export const ArticlesPage=({articles, setArticles, loading}) => {
     const [sortBy, setSortBy] = useState('created');
     const [order, setOrder] = useState('desc'); 
 

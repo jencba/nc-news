@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { addComment } from "../api";
 
-export const AddComment = ({ article_id, addCommentToList }) => {
-  const [usernameInput, setUsernameInput] = useState("");
+export const AddComment = ({ article_id, addCommentToList, loggedInUser }) => {
   const [commentInput, setCommentInput] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
@@ -10,18 +9,17 @@ export const AddComment = ({ article_id, addCommentToList }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!usernameInput || !commentInput) {
+    if (!commentInput) {
       alert("Input cannot be empty.");
       return;
     }
 
     setIsSubmitting(true);
-    addComment(article_id, {username: usernameInput, body: commentInput})
+    addComment(article_id, {username: loggedInUser, body: commentInput})
       .then((newComment) => {
         addCommentToList(newComment.comment);
         setSuccessMessage("Comment posted successfully!");
         setCommentInput("");
-        setUsernameInput("");
         setIsSubmitting(false)
       })
       .catch((error) => {
@@ -34,16 +32,7 @@ export const AddComment = ({ article_id, addCommentToList }) => {
     <section className="post-comment">
       <h3>Add a Comment</h3>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="usernameInput">Username:</label>
-        <input
-           type="text"
-          id="usernameInput"
-          value={usernameInput}
-          onChange={(e) => setUsernameInput(e.target.value)}
-          placeholder="Enter your username"
-          disabled={isSubmitting}
-          required
-        />
+        <p><strong>Logged in as: </strong> {loggedInUser}</p>
         <br />
         <label htmlFor="commentBody">Comment:</label>
         <textarea
