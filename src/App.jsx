@@ -8,6 +8,8 @@ import { ArticlesPage } from './components/ArticlesPage'
 import { getArticles } from './api'
 import { Loading } from './components/Loading'
 import { HomePage } from './components/HomePage'
+import { Topics } from './components/Topics'
+import { ArticlesByTopic } from './components/ArticlesByTopic'
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -42,6 +44,9 @@ function App() {
           element={<ArticlesPage articles={articles} setArticles={setArticles} loading={loadingArticles}  loggedInUser={loggedInUser} />}
         />
         <Route path="/articles/:article_id" element={<ArticleInfo  loggedInUser={loggedInUser}  />} />
+        <Route path="/topics/:topic" element={<ArticlesByTopic />} />
+         <Route path="/topics" element={<Topics />} />
+   
         </Routes>
         <Footer />
         

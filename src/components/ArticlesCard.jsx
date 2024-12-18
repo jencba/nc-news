@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const ArticleCard = ({ article }) => {
+export const ArticlesCard = ({ article }) => {
   return (
     <div className="col-md-4 col-sm-6">
       <Card className="article-card-container">
@@ -15,8 +15,8 @@ export const ArticleCard = ({ article }) => {
         <Card.Body>
         <Card.Title className= "article-card-title">
         {article.title
-        .split(' ') // Split the title into an array of words
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+        .split(' ') 
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
         .join(' ')} 
         </Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{article.author}</Card.Subtitle>
