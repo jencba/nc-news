@@ -3,22 +3,23 @@ import { useParams, Link } from "react-router-dom";
 import { getArticleById } from "../api";
 import { Loading } from "./Loading";
 import { Vote } from "./Vote";
-
 import { CommentsList } from "./CommentsList";
 
-export const ArticleInfo = ({loading, setLoading}) => {
+export const ArticleInfo = () => {
   const { article_id } = useParams()
+  const [loading, setLoading] =useState(true)
   const [article, setArticle] = useState({});
 
 
   useEffect(() => {
+    setLoading(true)
     getArticleById(article_id)
       .then((data) => {
         setArticle(data.article)
         setLoading(false);
       })
       .catch((err) => console.error(err));
-  }, [article_id]);
+  }, [article_id, setLoading]);
 
   if (loading) {
     return (
@@ -26,8 +27,7 @@ export const ArticleInfo = ({loading, setLoading}) => {
     );
   }
 
-
-  if (!article.title) {
+  if (!article) {
     return <p>Article not found!</p>;
   }
 
@@ -50,7 +50,7 @@ export const ArticleInfo = ({loading, setLoading}) => {
       <Link to="/articles">
         <button className=" btn-secondary">Back to Articles</button>
       </Link>
-      <CommentsList loading={loading} setLoading={setLoading}/>
+      <CommentsList />
     </div>
   );
 };

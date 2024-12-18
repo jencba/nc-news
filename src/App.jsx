@@ -2,7 +2,7 @@ import { useState, useEffect} from 'react'
 import './App.css'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
-import { ArticleInfo } from './components/Articleinfo'
+import { ArticleInfo } from './components/ArticleInfo'
 import { Routes, Route } from 'react-router-dom'
 import { ArticlesPage } from './components/ArticlesPage'
 import { getArticles } from './api'
@@ -11,21 +11,21 @@ import { HomePage } from './components/HomePage'
 
 function App() {
   const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loadingArticles, setLoadingArticles] = useState(true);
 
   useEffect(() => {
     getArticles()
       .then(({ articles }) => {
         setArticles(articles);
-        setLoading(false);
+        setLoadingArticles(false);
       })
       .catch((err) => {
         console.log(err);
-        setLoading(false);
+        setLoadingArticles(false);
       });
   }, []);
 
-  if (loading) {
+  if (loadingArticles) {
     return  <Loading />
     
   }
@@ -38,9 +38,9 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route
           path="/articles"
-          element={<ArticlesPage articles={articles} setArticles={setArticles} loading={loading} />}
+          element={<ArticlesPage articles={articles} setArticles={setArticles} loading={loadingArticles} />}
         />
-        <Route path="/articles/:article_id" element={<ArticleInfo loading={loading} setLoading={setLoading}/>} />
+        <Route path="/articles/:article_id" element={<ArticleInfo />} />
         </Routes>
         <Footer />
         
