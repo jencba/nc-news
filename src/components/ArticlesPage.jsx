@@ -1,81 +1,63 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Loading } from "./Loading";
 import { ArticlesCard } from "./ArticlesCard";
+import { useSearchParams } from "react-router-dom";
+import { getArticles } from "../api";
 
-export const ArticlesPage=({articles, setArticles, loading}) => {
-    const [sortBy, setSortBy] = useState('created');
-    const [order, setOrder] = useState('desc'); 
+export const ArticlesPage = () => {
+  const [articles, setArticles] = useState([]);
+  const [loadingArticles, setLoadingArticles] = useState(true);
+  const [searchParams, setSearchParams] = useSearchParams();
 
- // Function to sort articles
- const sortArticles = (articles, sortBy, order) => {
-    return [...articles].sort((a, b) => {
-      let comparison = 0;
-      if (sortBy === "topic") {
-        comparison = a.topic.localeCompare(b.topic);
-      } else if (sortBy === "author") {
-        comparison = a.author.localeCompare(b.author);
-      } else if (sortBy === "title") {
-        comparison = a.title.localeCompare(b.title);
-      } else if (sortBy === "created") {
-        comparison = new Date(a.created_at) - new Date(b.created_at);
-      } else if (sortBy === "comments") {
-        comparison = a.comment_count - b.comment_count;
-      } else if (sortBy === "votes") {
-        comparison = a.votes - b.votes;
-      }
+  const sortBy = searchParams.get("sort_by") || "created_at";
+  const order = searchParams.get("order") || "desc";
 
-      return order === "asc" ? comparison : -comparison;
-    });
-  };
+  useEffect(() => {
+    getArticles(sortBy, order)
+      .then(({ articles }) => {
+        setArticles(articles);
+        setLoadingArticles(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching articles:", err);
+        setLoadingArticles(false);
+      });
+  }, [sortBy, order]);
 
- 
+
   const handleSortByChange = (event) => {
-    setSortBy(event.target.value);
+    setSearchParams({ sort_by: event.target.value, order });
   };
 
   const handleSortOrderChange = (event) => {
-    setOrder(event.target.value);
+    setSearchParams({ sort_by: sortBy, order: event.target.value });
   };
 
-  const sortedArticles = sortArticles(articles, sortBy, order);
-  
-  if (loading) {
-    return  <Loading />
-    
+  if (loadingArticles) {
+    return <Loading />;
   }
-  
-  
-    return (
-        <div className="container">
-          <div className="row">
-            <label>
-              Sort by:
-              <select onChange={handleSortByChange} value={sortBy}>
-                <option value="title">Title</option>
-                <option value="author">Author</option>
-                <option value="topic">Topic</option>
-                <option value="created">Created</option>
-                <option value="comments">Comments</option>
-                <option value="votes">Votes</option>
-              </select>
-            </label>
-    
-            <label>
-              Order:
-              <select onChange={handleSortOrderChange} value={order}>
-                <option value="asc">Ascending</option>
-                <option value="desc">Descending</option>
-              </select>
-            </label>
-          </div>
-    
-          <div className="articles-list">
-            {sortedArticles.map((article) => (
-              <ArticlesCard key={article.article_id} article={article} />
-            ))}
-          </div>
-        </div>
-      );
-    };
-  
+
+  return (
+    <div>
+      <div className="sorting-options">
+        <label id="sort_by">Sort by:</label>
+        <select id="sort_by" value={sortBy} onChange={handleSortByChange}>
+          <option value="created_at">Date</option>
+          <option value="comment_count">Comment Count</option>
+          <option value="votes">Votes</option>
+        </select>
+        <label id="sort_order">Order:</label>
+        <select id="sort_order" value= {order} onChange={handleSortOrderChange}>
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+        </select>
+      </div>
+      <div className="articles-list">
+        {articles.map((article) => (
+          <ArticlesCard key={article.article_id} article={article} />
+        ))}
+      </div>
+    </div>
+  );
+};

@@ -4,12 +4,14 @@ const api = axios.create({
   baseURL: "https://jennifers-first-web-service.onrender.com/api",
 });
 
-export const getArticles = () => {
-    return api.get(`/articles`).then(({ data }) => {
-            return data;
-          });
-        };
-
+export const getArticles = (sortBy = "created_at", order = "desc") => {
+    return api
+      .get(`/articles`, {params: { sort_by: sortBy, order },
+      })
+      .then(({ data }) => {
+        return data;
+      });
+  };
 
 
 export const getArticleById = (article_id) => {
