@@ -1,9 +1,9 @@
 import React from "react";
 
-export const Footer = () => {
+export const Footer = ({className}) => {
   return (
-    <footer>
-      <p>This is the footer</p>
+    <footer className={className}>
+      <p>Created by Jennifer Daman</p>
     </footer>
   );
 };
