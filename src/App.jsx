@@ -19,7 +19,7 @@ function App() {
   return (
    
       <div className="App">
-        <Header className="Header"/>
+        <Header className="header"/>
         <Routes>
         <Route path="/home" element={<HomePage />} />
         <Route path="/" element={<HomePage />} />
@@ -33,7 +33,7 @@ function App() {
          <Route path="*" element={<Error />} />
    
         </Routes>
-        <Footer />
+        <Footer className="footer"/>
         
       </div>
   
