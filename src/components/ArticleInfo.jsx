@@ -1,34 +1,44 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getArticleById } from "../api";
 import { Loading } from "./Loading";
 import { Vote } from "./Vote";
 import { CommentsList } from "./CommentsList";
+import { Error } from "./Error";
 
-export const ArticleInfo = ( {loggedInUser}) => {
-  const { article_id } = useParams()
-  const [loading, setLoading] =useState(true)
-  const [article, setArticle] = useState({});
-
+export const ArticleInfo = ({ loggedInUser }) => {
+  const { article_id } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [article, setArticle] = useState(null); // Start with null to handle "not found" gracefully
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
+    setError(null); // Reset error state before fetching
     getArticleById(article_id)
       .then((data) => {
-        setArticle(data.article)
+        setArticle(data.article);
         setLoading(false);
       })
-      .catch((err) => console.error(err));
-  }, [article_id, setLoading]);
+      .catch((err) => {
+        console.error(err);
+        setError(
+          err.response?.data?.msg || "An error occurred while loading the article."
+        );
+        setLoading(false);
+      });
+  }, [article_id]);
 
   if (loading) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Error message={error} />;
   }
 
   if (!article) {
-    return <p>Article not found!</p>;
+    return <Error message="Article not found!" />;
   }
 
   return (
@@ -48,9 +58,9 @@ export const ArticleInfo = ( {loggedInUser}) => {
       <p className="article-body">{article.body}</p>
       <Vote article_id={article_id} initialVotes={article.votes} />
       <Link to="/articles">
-        <button className=" btn-secondary">Back to Articles</button>
+        <button className="btn-secondary">Back to Articles</button>
       </Link>
-      <CommentsList loggedInUser={loggedInUser}/>
+      <CommentsList loggedInUser={loggedInUser} />
     </div>
   );
 };

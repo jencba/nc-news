@@ -1,20 +1,23 @@
 import React, { useState } from "react";
 import { addComment } from "../api";
+import { Error } from "./Error";
 
 export const AddComment = ({ article_id, addCommentToList, loggedInUser }) => {
   const [commentInput, setCommentInput] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [error, setError]= useState(null)
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     if (!commentInput) {
-      alert("Input cannot be empty.");
+      setError("Input cannot be empty.");
       return;
     }
 
     setIsSubmitting(true);
+    setError(null)
     addComment(article_id, {username: loggedInUser, body: commentInput})
       .then((newComment) => {
         addCommentToList(newComment.comment);
@@ -23,7 +26,9 @@ export const AddComment = ({ article_id, addCommentToList, loggedInUser }) => {
         setIsSubmitting(false)
       })
       .catch((error) => {
-    alert(`Error: {${error.response ? error.response.data.msg : error.message}}`);
+    setError(
+      error.response?.data?.msg || "Something went wrong. Please try again."
+    );
         setIsSubmitting(false);
       });
   };
@@ -31,6 +36,7 @@ export const AddComment = ({ article_id, addCommentToList, loggedInUser }) => {
   return (
     <section className="post-comment">
       <h3>Add a Comment</h3>
+      {error && <Error message={error} />}
       <form onSubmit={handleSubmit}>
         <p><strong>Logged in as: </strong> {loggedInUser}</p>
         <br />

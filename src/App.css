@@ -5,6 +5,7 @@
   text-align: center;
 }
 
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -49,6 +50,13 @@
 }
 
 /* App.css */
+.header {
+  background: linear-gradient(to right, #007bff, #0056b3);
+  color: white;
+  padding: 100rem;
+  font-size: 1.5rem;
+  text-align: center;
+}
 
 /* ArticleCard Styles */
 .article-card-container {
