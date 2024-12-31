@@ -1,14 +1,12 @@
 .App {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100vh; /* Full viewport height ensures footer behavior */
   font-size: 16px;
 }
 
-
-
 #root {
-  flex-grow: ;  /* Ensures the content area takes up available space */
+  flex-grow: 1; /* Fills the available space between header and footer */
   width: 100%;
   margin: 0 auto; 
   padding: 0rem;
@@ -20,9 +18,10 @@
   color: white;
   text-align: center;
   padding: 1rem;
-  margin-top: auto;
+  margin-top: auto; /* Push footer to the bottom */
   width: 100%;
 }
+
 .header {
   width: 100%;
   color: white;
@@ -31,6 +30,7 @@
   text-align: center;
   margin: 0;
 }
+
 .navbar {
   display: flex;
   justify-content: center;
@@ -41,6 +41,18 @@
   flex-wrap: wrap;
 }
 
+
+.sorting-options {
+  padding: 10px;
+
+}
+
+.navbar-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
 /* .navbar-left .logo {
   font-size: 1.5rem;
   font-weight: bold;
@@ -57,7 +69,7 @@
 }
 
 .navbar-center .nav-links li {
-  margin-right: 1rem;
+  margin:0 1rem;
   
 }
 
@@ -92,18 +104,24 @@
   right: -0.5rem;
 }
 
+select {
+  margin-left: 1rem;
+  padding: 0.5rem;
+}
+
 .article-card-img {
-  width: 100%;
+  width: 40%;
   height: 200px;
   object-fit: cover;
   border-radius: 5px;
+  padding: 5px;
 }
 
 .comment-card {
   align-items: center;
   background-color: #f9f9f9;
   padding: 10px;
-  margin: 10px 0;
+  margin: 10px 10px;
   border-radius: 5px;
   font-size: 10px;
   color: #555;
@@ -123,6 +141,14 @@
 }
 /* Responsive Media Queries */
 @media (max-width: 1200px) {
+  .navbar .nav-links {
+    display: none;
+  }
+
+  .drop-down-menu{
+    display: inline-block;
+    width:300px;
+  }
   .header {
     font-size: 1.25rem; /* Adjust font size for medium screens */
   }
@@ -137,6 +163,7 @@
 }
 
 @media (max-width: 768px) {
+
   .header {
     font-size: 1.2rem; /* Adjust font size for smaller screens */
   }
